@@ -30,6 +30,16 @@ Pour chaque réplique d'origine, TradVoice **mesure** au lieu de copier la voix 
 La réplique est traduite (moteur TradUp, raccourcie si besoin pour tenir dans la même durée ±15 %), puis dite par la **voix décrite du personnage** avec ces réglages. On garde le jeu d'acteur, pas son timbre.
 Par personnage, l'IA peut aussi **décrire** la voix d'origine (âge, timbre, ton) pour proposer une fiche « même ton, voix différente ».
 
+## Moteur de voix (proposé : Qwen3-TTS)
+VOX NATIVE est abandonné (prototype Skyrim qui ne marchait pas). Proposition : **Qwen3-TTS** (Alibaba, 2026), licence **Apache 2.0** (usage commercial permis), français pris en charge.
+- **VoiceDesign** : crée une voix à partir d'une description en langage naturel → colle exactement aux fiches de `fiches.py`.
+- **Base** : reproduit une voix à partir de quelques secondes → pour le mode « Mes textes » avec **sa propre voix** (et pour garder une voix identique d'une réplique à l'autre : on crée la voix une fois par description, puis on réutilise cet échantillon).
+- **CustomVoice** : consignes de ton (émotion, débit) → pour la réécriture vocale.
+- Taille 1,7 milliard de paramètres (une version 0,6 existe) : tient sur une carte de 8 Go, mais **pas en même temps** que l'IA de traduction (déjà prévu : traduire, arrêter l'IA, puis générer).
+- Plan B : **Chatterbox Multilingual** (Resemble AI, licence MIT, français, réglage d'intensité de l'émotion, reproduction de voix) mais sans création de voix par description.
+- Écartés (licence non commerciale) : XTTS-v2, F5-TTS, Fish Speech.
+- À vérifier sur ton PC avant d'écrire `voixlocale.py` : qualité du français, vitesse sur ta carte, et relecture du fichier de licence de chaque modèle téléchargé.
+
 ## Où on en est (v0.1, 25/11)
 Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 - `personnages.py` : qui parle dans un jeu Ren'Py (`.rpy` sûr ; `.rpyc` en best effort, **à vérifier sur un vrai jeu**), narrateur, résumé par personnage, jeu « tout en texte » détecté.
@@ -40,7 +50,7 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 ## Étapes suivantes
 | # | Étape | Bloqué par |
 |---|---|---|
-| 1 | **Moteur de voix** : `voixlocale.py` (processus séparé, comme `localai.py`), `synth(texte, fiche, émotion, débit)` | choix du moteur (VOX NATIVE ? sinon un moteur local qui crée une voix par description, licence commerciale) |
+| 1 | **Moteur de voix** : `voixlocale.py` (processus séparé, comme `localai.py`), `synth(texte, fiche, émotion, débit)` | ton accord sur Qwen3-TTS (voir « Moteur de voix ») |
 | 2 | Bouton « Écouter un essai » dans la fiche | 1 |
 | 3 | `audio.py` (ffmpeg) : durée, volume, accélération légère, conversion `.ogg` | — |
 | 4 | Générer toutes les répliques (pause / reprise / carillon, comme TradUp) | 1, 3 |
@@ -84,6 +94,6 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 Limites : musique et bruitages restent sous la voix française ; qualité de traduction phrase par phrase (moins bonne qu'un doublage écrit à l'avance) ; à tester sur ton PC (transcription + IA + voix en même temps).
 
 ## Questions ouvertes
-1. Moteur de voix : que contient VOX NATIVE (moteur, licence) ?
+1. Moteur de voix : d'accord pour Qwen3-TTS ?
 2. Mangas : lecture à voix haute ou traduction des images ?
 3. Traduction instantanée : quel logiciel sert de modèle ?
