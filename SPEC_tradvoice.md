@@ -51,7 +51,9 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 | 9 | Unity (greffon BepInEx), puis autres moteurs | 5 |
 
 ## Idées à cadrer (pas commencées)
-- **Animés / vidéos** : même chaîne (transcription → traduction → voix décrite + réécriture vocale) sur un fichier vidéo, puis une nouvelle piste audio. Usage personnel sur une vidéo que tu possèdes ; TradVoice ne doit rien mettre en ligne ni partager (droits d'auteur).
+- **Animés / vidéos** : TradVoice **ne télécharge rien** et ne contourne aucune protection (Crunchyroll, Netflix, ADN… sont protégés par DRM : les contourner est interdit, en France article L.335-3-1 du Code de la propriété intellectuelle, même pour un usage privé). Deux façons de faire :
+  1. **En direct (recommandé)** : on regarde l'épisode normalement sur la plateforme ; TradVoice écoute le son du PC, transcrit, traduit et redit en français par-dessus, avec 1 à 3 s de retard (c'est le mode « traduction vocale instantanée »). Rien n'est téléchargé ni enregistré.
+  2. **Fichier** : seulement une vidéo que l'on possède **sans protection** (ses propres vidéos, achats sans DRM, œuvres libres). TradVoice fabrique une piste audio française à côté, sans toucher au fichier d'origine.
 - **Mangas** : à préciser — lire à voix haute un manga déjà traduit (bulles par personnage), ou traduire les images (TradUp sait déjà traduire le texte des images) ?
 - **Traduction vocale instantanée** : écouter un son en direct (jeu, vidéo, micro) et le redire en français avec 1 à 3 s de retard. Faisable en local (transcription + IA + voix), mais c'est un mode à part. Nom du logiciel dont tu veux t'inspirer : à donner.
 
