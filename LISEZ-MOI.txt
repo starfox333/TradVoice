@@ -1,0 +1,19 @@
+TRADVOICE (version 0.1, en construction)
+=========================================
+
+Donne une voix française aux personnages d'un jeu, tout sur ton PC.
+
+Lancer : double-clic sur « Lancer TradVoice.bat » (il faut Python 3.11 et pywebview, comme TradUp).
+
+1. Glisse un jeu Ren'Py (ou « Essayer avec le jeu de démonstration »).
+2. « Voix du jeu » : TradVoice a trouvé qui parle et propose une voix pour chacun.
+   Choisis le type de jeu (avec dialogues, ou tout en texte : une voix de narrateur lit l'histoire)
+   et écris le contexte (ambiance, qui est qui) : l'IA s'en sert pour choisir les voix.
+3. « Régler » ouvre la fiche d'un personnage : genre, âge, timbre, débit, ton, description.
+   « Verrouiller » : TradVoice ne la changera plus.
+4. La barre « Demande à l'IA » comprend des demandes comme « une voix de vieux marin bourru pour Bram ».
+
+L'IA est celle de TradUp (installe-la depuis TradUp, bouton « IA intégrée »). Sans elle, les voix sont proposées
+plus simplement. Les voix sont créées à partir d'une description : jamais la copie de la voix d'une personne réelle.
+
+Pas encore fait : générer les voix et les mettre dans le jeu (le moteur de voix n'est pas encore branché).

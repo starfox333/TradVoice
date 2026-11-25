@@ -1,0 +1,5 @@
+__pycache__/
+.venv/
+.pytest_cache/
+third_party/llama/
+third_party/voix/

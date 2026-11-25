@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TradVoice</title>
+<style>
+:root{--bg:#f6f5f2;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--soft:#efede8;--accent:#3a5bd9;--accent-ink:#fff;--accent-soft:#e8edfc;--accent-deep:#2a46b0;--ok:#2f8f5b;--warn:#a5600a;--bad:#c23b3b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",system-ui,sans-serif}
+header{padding:12px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.logo{display:flex;align-items:center;gap:8px}
+.logo i{width:30px;height:30px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.logo b{font-size:18px}
+#status{font-size:13px;color:var(--muted);margin-left:8px}
+#status .on{color:var(--ok)}#status .off{color:var(--warn)}
+.top{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:7px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:#c9c6bf}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button:disabled{opacity:.5;cursor:default}
+.layout{display:flex;min-height:calc(100vh - 57px)}
+nav{flex:0 0 200px;background:var(--panel);border-right:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+nav button{border:none;text-align:left;padding:9px 12px;color:#4a4a50;background:none}
+nav button.on{background:var(--accent-soft);color:var(--accent-deep)}
+main{flex:1;min-width:0;padding:24px 28px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 10px;font-weight:600}
+h1{margin:0;font-weight:500}
+label{display:block;font-size:12.5px;color:var(--muted);margin:10px 0 4px}
+input,textarea,select{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px}
+.muted{color:var(--muted)}
+.hidden{display:none!important}
+/* accueil */
+.home{display:flex;flex-direction:column;align-items:center;gap:26px;padding-top:36px}
+.ask{width:100%;max-width:680px;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.ask input{border:none;background:transparent;padding:8px 0;font-size:15px;outline:none}
+.ask button{width:40px;height:40px;border-radius:50%;padding:0;border:none;background:var(--accent);color:#fff;flex:none;display:flex;align-items:center;justify-content:center}
+#reply{max-width:680px;width:100%;font-size:14px;color:var(--accent-deep);min-height:1em;text-align:center}
+#drop{width:100%;max-width:680px;border:2px dashed #c3cdf2;background:var(--panel);border-radius:12px;padding:22px;text-align:center}
+#drop.over{background:var(--accent-soft)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;width:100%;max-width:760px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 12px;text-align:center}
+.tile i{width:48px;height:48px;border-radius:12px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center}
+.rec{display:flex;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid var(--soft);cursor:pointer}
+.rec:hover{background:var(--bg)}
+/* voix du jeu */
+.game{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.side{flex:1 1 260px;max-width:320px;display:flex;flex-direction:column;gap:14px}
+.mainc{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.steps li{padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:var(--panel);font-size:12.5px;color:#4a4a50}
+.steps li.done{color:var(--ok)}.steps li.now{background:var(--accent);border-color:var(--accent);color:#fff}
+.kinds label{display:flex;gap:8px;align-items:flex-start;color:var(--ink);font-size:13.5px;margin:6px 0;cursor:pointer}
+.kinds input{width:auto;margin-top:3px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 14px;border-top:1px solid var(--soft)}
+.row:first-child{border-top:none}
+.av{width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.who{flex:1 1 200px;min-width:0}
+.who b{display:block;font-size:15px}
+.who q{display:block;font-size:12.5px;color:var(--muted);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.voice{flex:1 1 220px;min-width:0}
+.voice small{display:block;color:var(--muted)}
+.pill{font-size:11.5px;padding:2px 8px;border-radius:20px;background:var(--soft);color:#4a4a50;white-space:nowrap}
+.pill.lock{background:var(--accent-soft);color:var(--accent-deep)}
+.warnbox{border-color:#f0d3a6;background:#fff8ec;color:#7a4a08}
+.bottomask{position:sticky;bottom:0;padding-top:8px;background:linear-gradient(transparent,var(--bg) 30%)}
+/* fiche */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{padding:6px 12px;border-radius:20px;font-size:13px}
+.seg button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep)}
+.lines{max-height:280px;overflow:auto;margin:0;padding-left:18px;color:#3a3a40}
+.lines li{margin:4px 0}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:10px 16px;border-radius:8px;font-size:13.5px;max-width:90vw}
+@media (max-width:760px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 10v4M9 7v10M13 4v16M17 8v8"/></svg></i>
+    <b>TradVoice</b> <small class="muted" id="ver"></small> <small class="muted">voix de jeux</small></div>
+  <span id="status">…</span>
+  <div class="top"><button id="guidebtn" title="Comment ça marche">? Guide</button><button id="quitbtn">Quitter</button></div>
+</header>
+<div class="layout">
+  <nav aria-label="Menu">
+    <button data-v="home" class="on">Accueil</button>
+    <button data-v="game">Voix du jeu</button>
+    <button data-v="card">Fiche personnage</button>
+  </nav>
+  <main>
+    <!-- ================= ACCUEIL ================= -->
+    <section id="v-home" class="home">
+      <h1 style="font-size:30px;text-align:center">Quel jeu veux-tu faire parler ?</h1>
+      <form class="ask" id="askhome"><label for="askhomein" class="hidden">Demande à l'IA</label>
+        <input id="askhomein" placeholder="Demande à l'IA : « une voix de vieux marin bourru pour Bram »" autocomplete="off">
+        <button aria-label="Envoyer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></form>
+      <div id="replyhome" class="muted" style="max-width:680px;text-align:center"></div>
+      <div id="drop"><strong>Glisse un jeu ici</strong><br><span class="muted">raccourci de jeu du Bureau, dossier du jeu ou .exe — pour l'instant : jeux Ren'Py (visual novels)</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px"><button id="folderbtn">Dossier d'un jeu…</button><button id="demobtn" class="primary">Essayer avec le jeu de démonstration</button></div></div>
+      <div class="tiles">
+        <div class="card tile"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5bd9" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/></svg></i><b>Donner une voix</b><span class="muted">Jeu muet : une voix par personnage</span></div>
+        <div class="card tile"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5bd9" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 5h7a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-4M20 9h-4M20 13h-4"/></svg></i><b>Narrateur</b><span class="muted">Jeu tout en texte : une voix lit l'histoire</span></div>
+        <div class="card tile"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5bd9" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M8.5 4v2M6 6c0 4 3 7 6 8M11 6c-1 4-4 7-7 8M14 20l4-9 4 9M15.5 17h5"/></svg></i><b>Doubler en français</b><span class="muted">Jeu doublé : nouvelle voix, même ton (bientôt)</span></div>
+      </div>
+      <section class="card" style="width:100%;max-width:760px" id="recentcard"><h2>Récemment</h2><div id="recent"></div></section>
+    </section>
+
+    <!-- ================= VOIX DU JEU ================= -->
+    <section id="v-game" class="hidden">
+      <div class="game">
+        <aside class="side">
+          <div class="card"><h2>Le jeu</h2><b id="gname" style="font-size:16px"></b><div class="muted" id="ginfo"></div></div>
+          <div class="card kinds"><h2>Type de jeu</h2>
+            <label><input type="radio" name="kind" value="dialogues"> <span><b>Avec dialogues</b><br><span class="muted">chaque personnage a sa voix, le narrateur lit le reste</span></span></label>
+            <label><input type="radio" name="kind" value="textuel"> <span><b>Tout en texte</b><br><span class="muted">une seule voix de narrateur lit toute l'histoire</span></span></label>
+          </div>
+          <div class="card"><h2>Contexte du jeu</h2>
+            <label for="context" style="margin-top:0">Ambiance, époque, qui est qui… <small>(aide l'IA à choisir les voix)</small></label>
+            <textarea id="context" rows="5" placeholder="Conte maritime et mélancolique. Elda est une vieille gardienne de phare, douce et mystérieuse."></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px;align-items:center"><button id="savectx">Enregistrer</button><span class="muted" id="ctxmsg"></span></div>
+          </div>
+        </aside>
+        <div class="mainc">
+          <ol class="steps" aria-label="Parcours"><li class="done">1 Personnages ✓</li><li class="now">2 Voix</li><li>3 Générer</li><li>4 Appliquer au jeu</li><li>5 Lancer le jeu</li></ol>
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px">
+            <div><h1 style="font-size:24px">Les voix du jeu</h1><div class="muted">Une voix par personnage, décrite avec des mots. Écoute, verrouille celles qui te plaisent.</div></div>
+            <button id="proposebtn" style="margin-left:auto">Reproposer les voix</button>
+          </div>
+          <div id="alikes" class="card warnbox hidden"></div>
+          <div class="card" style="padding:0" id="cast"></div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+            <button class="primary" disabled title="Le moteur de voix n'est pas encore branché">▶ Générer toutes les répliques</button>
+            <button disabled>Appliquer au jeu (originaux sauvegardés)</button>
+            <span class="muted" id="gencount"></span>
+          </div>
+          <div class="bottomask"><form class="ask" id="askgame" style="max-width:none"><label for="askgamein" class="hidden">Demande à l'IA</label>
+            <input id="askgamein" placeholder="Demande à l'IA : « Elda plus âgée, voix tremblante »" autocomplete="off">
+            <button aria-label="Envoyer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></form>
+            <div id="replygame" style="margin:6px 0 0 20px;color:var(--accent-deep)"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FICHE PERSONNAGE ================= -->
+    <section id="v-card" class="hidden">
+      <div class="game">
+        <aside class="side">
+          <div class="card"><h2>Qui est-ce ?</h2><b id="cname" style="font-size:18px"></b><div class="muted" id="cinfo"></div></div>
+          <div class="card"><h2>Ses répliques</h2><ol class="lines" id="clines"></ol></div>
+        </aside>
+        <div class="mainc">
+          <button id="backbtn" style="align-self:flex-start">← Les voix du jeu</button>
+          <div class="card">
+            <h2>Sa voix</h2>
+            <div class="grid2">
+              <div><label>Genre</label><div class="seg" data-f="genre"></div></div>
+              <div><label>Âge</label><div class="seg" data-f="age"></div></div>
+              <div><label>Timbre</label><div class="seg" data-f="timbre"></div></div>
+              <div><label>Débit</label><div class="seg" data-f="debit"></div></div>
+            </div>
+            <label for="fton">Ton <small>(quelques mots : chaleureux, bourru, mystérieux…)</small></label><input id="fton">
+            <label for="fdesc">Description <small>(une phrase, comme pour un comédien de doublage)</small></label><textarea id="fdesc" rows="2"></textarea>
+            <label style="display:flex;gap:8px;align-items:center;color:var(--ink);font-size:13.5px"><input type="checkbox" id="flock" style="width:auto"> Verrouiller : TradVoice ne changera plus cette voix</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center">
+              <button class="primary" id="savecard">Enregistrer la voix</button>
+              <button disabled title="Le moteur de voix n'est pas encore branché">▶ Écouter un essai</button>
+              <span class="muted" id="cardmsg"></span>
+            </div>
+          </div>
+          <div class="card muted" style="font-size:13px">Les voix de TradVoice sont <b>créées à partir d'une description</b> : même ton que le rôle, jamais la copie de la voix d'une personne réelle.</div>
+          <form class="ask" id="askcard" style="max-width:none"><label for="askcardin" class="hidden">Demande à l'IA</label>
+            <input id="askcardin" placeholder="Demande à l'IA : « plus douce, un peu fatiguée »" autocomplete="off">
+            <button aria-label="Envoyer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></form>
+          <div id="replycard" style="margin-left:20px;color:var(--accent-deep)"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" class="hidden"></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const OPTS = {genre:["femme","homme","enfant","neutre"], age:["enfant","jeune","adulte","âgé"], timbre:["grave","médium","aigu"], debit:["lent","normal","rapide"]};
+let S = null, CUR = null, EDIT = {};
+
+// Sans le logiciel (aperçu dans un navigateur) : fausses réponses pour voir l'interface.
+function api(){ return (window.pywebview && window.pywebview.api) || MOCK; }
+const MOCK = (() => {
+  const chars = [{name:"Elda",lines:16,examples:["Welcome to Mistvale, traveler. You picked a strange night to arrive.","I'm Elda. I used to keep that light, a long time ago."],narrator:false},
+                 {name:"Narrateur",lines:6,examples:["The fog rolled in from the sea, thick and silver, swallowing the little harbor whole."],narrator:true}];
+  const st = {name:"Mistvale",kind:"dialogues",lines:22,chars,context:"",alikes:[],cards:{
+    Elda:{name:"Elda",genre:"femme",age:"âgé",timbre:"médium",ton:"douce, mystérieuse",debit:"lent",description:"Voix douce de vieille gardienne de phare, un peu lointaine.",source:"proposée par l'IA",verrouille:true},
+    Narrateur:{name:"Narrateur",genre:"neutre",age:"adulte",timbre:"grave",ton:"posé, conteur",debit:"normal",description:"Voix grave et calme de conteur.",source:"proposée (démo)",verrouille:false}}};
+  const p = (v) => Promise.resolve(JSON.parse(JSON.stringify(v)));
+  return {status:()=>p({version:"0.1 (aperçu)",ai:false,voice:false,demo:true,recent:[{name:"Mistvale",chars:2,lines:22,kind:"dialogues"}]}),
+    open_demo:()=>p(st), open_game:()=>p(st), pick_folder:()=>p(st), propose:()=>p(st), save_context:(k,c)=>(st.kind=k,st.context=c,p(st)),
+    save_card:(n,c)=>(Object.assign(st.cards[n],c,{source:"modifiée par toi"}),p(st)),
+    ask:()=>p({reply:"Aperçu : l'IA locale répondra ici dans le logiciel."}), lines_of:(n)=>p(chars.find(c=>c.name===n).examples), quit:()=>p(null)};
+})();
+
+function toast(t){ const e=$("toast"); e.textContent=t; e.classList.remove("hidden"); clearTimeout(e._t); e._t=setTimeout(()=>e.classList.add("hidden"),4000); }
+function esc(s){ return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function show(v){
+  if ((v==="game"||v==="card") && !S){ toast("Ouvre d'abord un jeu (ou le jeu de démonstration)."); v="home"; }
+  if (v==="card" && !CUR){ CUR = S.chars[0].name; }
+  for (const s of ["home","game","card"]) $("v-"+s).classList.toggle("hidden", s!==v);
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
+  if (v==="card") renderCard();
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+async function boot(){
+  const st = await api().status();
+  $("ver").textContent = "v"+st.version;
+  $("status").innerHTML = (st.ai ? '<span class="on">● IA locale prête</span>' : '<span class="off">● IA locale à installer (depuis TradUp)</span>') +
+    ' · ' + (st.voice ? '<span class="on">● Voix prête</span>' : '<span class="off">● Moteur de voix pas encore branché</span>');
+  $("demobtn").classList.toggle("hidden", !st.demo);
+  $("recentcard").classList.toggle("hidden", !st.recent.length);
+  $("recent").innerHTML = st.recent.map(r=>`<div class="rec" data-p="${esc(r.path)}"><b style="flex:0 0 160px">${esc(r.name)}</b><span class="muted" style="flex:1">${r.kind==="textuel"?"Narrateur":"Donner une voix"} · ${r.chars} personnage(s) · ${r.lines} répliques</span><span style="color:var(--accent)">Ouvrir →</span></div>`).join("");
+  document.querySelectorAll(".rec").forEach(e=>e.onclick=()=>e.dataset.p ? load(api().open_game(e.dataset.p)) : load(api().open_demo()));
+}
+
+async function load(promise){
+  const st = await promise;
+  if (!st) return;
+  if (st.error){ toast(st.error); return; }
+  S = st; CUR = null; renderGame(); show("game");
+  if (st.message) toast(st.message);
+}
+window.onGameOpened = (st) => load(Promise.resolve(st));
+
+function initials(n){ return n.split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase(); }
+function voiceLine(c){ return [c.genre, c.age, "timbre "+c.timbre, c.debit!=="normal"?"débit "+c.debit:""].filter(Boolean).join(" · "); }
+
+function renderGame(){
+  $("gname").textContent = S.name;
+  $("ginfo").textContent = `${S.lines} répliques · ${S.chars.length} personnage(s)`;
+  document.querySelectorAll('input[name=kind]').forEach(r=>r.checked = r.value===S.kind);
+  $("context").value = S.context || "";
+  const chars = S.kind==="textuel" ? S.chars.filter(c=>c.narrator) : S.chars;
+  $("cast").innerHTML = chars.map(c=>{ const v=S.cards[c.name]||{}; return `
+    <div class="row"><span class="av" aria-hidden="true">${esc(initials(c.name))}</span>
+      <div class="who"><b>${esc(c.name)}</b><span class="muted" style="font-size:12.5px">${c.narrator?"Narration":"Personnage"} · ${c.lines} réplique(s)</span><q>${esc(c.examples[0]||"")}</q></div>
+      <div class="voice"><span>${esc(v.ton||"(pas encore de voix)")}</span><small>${esc(voiceLine(v))}</small></div>
+      ${v.verrouille?'<span class="pill lock">Verrouillée</span>':`<span class="pill">${esc(v.source||"")}</span>`}
+      <button data-n="${esc(c.name)}">Régler</button></div>`; }).join("");
+  $("cast").querySelectorAll("button[data-n]").forEach(b=>b.onclick=()=>{ CUR=b.dataset.n; show("card"); });
+  const al = S.alikes||[];
+  $("alikes").classList.toggle("hidden", !al.length);
+  $("alikes").textContent = al.length ? "Risque de confusion : " + al.map(p=>p.join(" et ")).join(", ") + " ont la même voix (même genre, âge et timbre). Change l'une des deux." : "";
+  const n = chars.reduce((a,c)=>a+c.lines,0);
+  $("gencount").textContent = `${n} répliques à générer · tout reste sur ton PC`;
+}
+
+async function renderCard(){
+  const c = S.chars.find(x=>x.name===CUR); const v = S.cards[CUR]; EDIT = {...v};
+  $("cname").textContent = CUR;
+  $("cinfo").textContent = `${c.narrator?"Narration":"Personnage"} · ${c.lines} réplique(s) · voix ${v.source}`;
+  document.querySelectorAll(".seg").forEach(seg=>{ const f=seg.dataset.f;
+    seg.innerHTML = OPTS[f].map(o=>`<button type="button" class="${EDIT[f]===o?"on":""}" data-o="${o}">${o}</button>`).join("");
+    seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{ EDIT[f]=b.dataset.o; seg.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); }); });
+  $("fton").value = v.ton||""; $("fdesc").value = v.description||""; $("flock").checked = !!v.verrouille; $("cardmsg").textContent = "";
+  const lines = await api().lines_of(CUR);
+  $("clines").innerHTML = lines.map(t=>`<li>${esc(t)}</li>`).join("");
+}
+
+$("savecard").onclick = async () => {
+  const st = await api().save_card(CUR, {...EDIT, ton:$("fton").value, description:$("fdesc").value, verrouille:$("flock").checked});
+  if (st){ S = st; renderGame(); $("cardmsg").textContent = "Enregistrée ✓"; }
+};
+$("backbtn").onclick = () => show("game");
+$("savectx").onclick = async () => {
+  const k = (document.querySelector('input[name=kind]:checked')||{}).value || S.kind;
+  S = await api().save_context(k, $("context").value); renderGame(); $("ctxmsg").textContent = "Enregistré ✓";
+};
+document.querySelectorAll('input[name=kind]').forEach(r=>r.onchange=()=>$("savectx").onclick());
+$("proposebtn").onclick = async () => { $("proposebtn").disabled = true; toast("L'IA prépare les voix…"); await load(api().propose()); $("proposebtn").disabled = false; };
+$("demobtn").onclick = () => load(api().open_demo());
+$("folderbtn").onclick = () => load(api().pick_folder());
+$("drop").onclick = (e) => { if (e.target.id==="drop") $("folderbtn").onclick(); };
+["dragenter","dragover"].forEach(t=>$("drop").addEventListener(t,e=>{e.preventDefault();$("drop").classList.add("over");}));
+["dragleave","drop"].forEach(t=>$("drop").addEventListener(t,()=>$("drop").classList.remove("over")));
+$("quitbtn").onclick = () => api().quit();
+$("guidebtn").onclick = () => toast("1. Ouvre un jeu Ren'Py · 2. Vérifie la voix proposée pour chaque personnage · 3. Écris tes envies dans « Demande à l'IA ».");
+
+function askForm(form, input, out, selected){
+  $(form).onsubmit = async (e) => {
+    e.preventDefault(); const t = $(input).value.trim(); if (!t) return;
+    $(out).textContent = "…";
+    const r = await api().ask(t, selected ? CUR : null);
+    $(out).textContent = r.reply || "";
+    if (r.cards){ S = r; renderGame(); if (selected) renderCard(); $(input).value = ""; }
+  };
+}
+askForm("askhome","askhomein","replyhome",false);
+askForm("askgame","askgamein","replygame",false);
+askForm("askcard","askcardin","replycard",true);
+
+window.addEventListener("pywebviewready", boot);
+setTimeout(()=>{ if (!window.pywebview) boot(); }, 300);
+</script>
+</body>
+</html>

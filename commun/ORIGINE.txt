@@ -1,0 +1,3 @@
+Ces modules viennent de TradUp (github.com/starfox333/tradup), commit f26f51e (25/11/2026), copiés sans changement.
+Ne pas les modifier ici : corriger dans TradUp puis recopier le fichier.
+bundle, protect, renpygame, localai, engine, textes_ia, glossary, memoire, proches, gamescan
