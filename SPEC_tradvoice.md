@@ -69,6 +69,14 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
     - jamais utilisable dans les modes jeux / animés (ce n'est pas un outil pour se doubler dans une œuvre d'un tiers… sauf si on décide autrement plus tard).
   - Contrainte technique : le moteur de voix doit savoir **à la fois** créer une voix par description et reproduire une voix enregistrée, avec une licence qui autorise la publication et la vente des sons produits.
 
+## Mode direct (animés, vidéos) — comment
+1. **Choisir la source** : on ne donne pas un lien, on choisit **l'application qui joue la vidéo** (le navigateur sur Crunchyroll, ADN…). TradVoice n'écoute que le son de cette application (capture par application de Windows 10/11), pas le reste du PC ni sa propre voix.
+2. **Premier épisode = apprentissage, sans rien enregistrer** : pendant qu'on regarde, TradVoice repère les voix différentes et en garde seulement une **empreinte** (des nombres qui servent à reconnaître qui parle) et une **description** (genre, âge, timbre, ton). Jamais le son ni l'image. À la fin, il demande « qui est la voix n°1 ? » en montrant les répliques transcrites : on donne les noms, on règle les voix françaises comme pour un jeu.
+3. **Épisodes suivants** : chaque réplique est reconnue (quel personnage), transcrite, traduite (lexique des noms comme TradUp), puis dite avec la voix française du personnage et le ton mesuré de la réplique (réécriture vocale). Le son d'origine est baissé (pas coupé) pendant que la voix française parle.
+4. **Décalage** : il faut attendre la fin d'une phrase pour la traduire ; objectif **1 à 2 s**. Les phrases longues sont découpées aux pauses pour réduire l'attente.
+5. Rien n'est enregistré ni exporté dans ce mode ; une « série » = un projet (personnages, voix, lexique) réutilisé d'un épisode à l'autre.
+Limites : musique et bruitages restent sous la voix française ; qualité de traduction phrase par phrase (moins bonne qu'un doublage écrit à l'avance) ; à tester sur ton PC (transcription + IA + voix en même temps).
+
 ## Questions ouvertes
 1. Moteur de voix : que contient VOX NATIVE (moteur, licence) ?
 2. Mangas : lecture à voix haute ou traduction des images ?
