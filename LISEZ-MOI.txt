@@ -3,6 +3,11 @@ TRADVOICE (version 0.1, en construction)
 
 Donne une voix française aux personnages d'un jeu, tout sur ton PC.
 
+USAGE PERSONNEL UNIQUEMENT. Diffusion interdite : ne partage et ne mets jamais en ligne les voix, pistes audio,
+jeux ou vidéos fabriqués avec TradVoice (droits des auteurs, des studios et des comédiens : une diffusion peut
+exposer à des poursuites judiciaires). TradVoice ne remplace pas les comédiens de doublage : quand une version
+française officielle existe, préfère-la. Détails : « USAGE PERSONNEL - à lire.txt ».
+
 Lancer : double-clic sur « Lancer TradVoice.bat » (il faut Python 3.11 et pywebview, comme TradUp).
 
 1. Glisse un jeu Ren'Py (ou « Essayer avec le jeu de démonstration »).

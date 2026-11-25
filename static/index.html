@@ -72,6 +72,10 @@ input,textarea,select{width:100%;font:inherit;color:inherit;background:var(--bg)
 .seg button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep)}
 .lines{max-height:280px;overflow:auto;margin:0;padding-left:18px;color:#3a3a40}
 .lines li{margin:4px 0}
+#terms{position:fixed;inset:0;background:rgba(20,20,22,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+#terms .card{max-width:560px;padding:22px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#terms li{margin:6px 0}
+.legal{max-width:760px;width:100%;font-size:12.5px;color:var(--muted);text-align:center}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:10px 16px;border-radius:8px;font-size:13.5px;max-width:90vw}
 @media (max-width:760px){nav{display:none}main{padding:16px}.grid2{grid-template-columns:1fr}}
 </style>
@@ -104,6 +108,7 @@ input,textarea,select{width:100%;font:inherit;color:inherit;background:var(--bg)
         <div class="card tile"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5bd9" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 5h7a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-4M20 9h-4M20 13h-4"/></svg></i><b>Narrateur</b><span class="muted">Jeu tout en texte : une voix lit l'histoire</span></div>
         <div class="card tile"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5bd9" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M8.5 4v2M6 6c0 4 3 7 6 8M11 6c-1 4-4 7-7 8M14 20l4-9 4 9M15.5 17h5"/></svg></i><b>Doubler en français</b><span class="muted">Jeu doublé : nouvelle voix, même ton (bientôt)</span></div>
       </div>
+      <p class="legal"><b>Usage personnel uniquement.</b> Ne partage et ne mets jamais en ligne ce que TradVoice fabrique (voix, pistes audio, jeux ou vidéos modifiés) : c'est interdit et peut exposer à des poursuites. TradVoice ne remplace pas les comédiens : quand une version française officielle existe, préfère-la.</p>
       <section class="card" style="width:100%;max-width:760px" id="recentcard"><h2>Récemment</h2><div id="recent"></div></section>
     </section>
 
@@ -179,6 +184,17 @@ input,textarea,select{width:100%;font:inherit;color:inherit;background:var(--bg)
     </section>
   </main>
 </div>
+<div id="terms" class="hidden" role="dialog" aria-modal="true" aria-labelledby="termstitle">
+  <div class="card">
+    <h1 id="termstitle" style="font-size:22px;margin-bottom:10px">Avant de commencer</h1>
+    <ul style="padding-left:18px;margin:0 0 14px">
+      <li><b>Usage personnel uniquement</b> : les voix fabriquées restent sur ton PC, pour ta propre copie du jeu ou de la vidéo.</li>
+      <li><b>Diffusion interdite</b> : ne partage, ne publie et ne vends jamais ces voix, pistes audio, jeux ou vidéos modifiés (YouTube, réseaux, Discord, liens…). Cela viole les droits des auteurs, des studios et des comédiens, et peut exposer à des <b>poursuites judiciaires</b>.</li>
+      <li><b>TradVoice ne remplace pas les comédiens</b> et ne copie la voix de personne : quand une version française officielle existe, préfère-la.</li>
+    </ul>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end"><button id="termsquit">Quitter</button><button class="primary" id="termsok">J'ai compris, j'accepte</button></div>
+  </div>
+</div>
 <div id="toast" class="hidden"></div>
 <script>
 const $ = (id) => document.getElementById(id);
@@ -194,8 +210,8 @@ const MOCK = (() => {
     Elda:{name:"Elda",genre:"femme",age:"âgé",timbre:"médium",ton:"douce, mystérieuse",debit:"lent",description:"Voix douce de vieille gardienne de phare, un peu lointaine.",source:"proposée par l'IA",verrouille:true},
     Narrateur:{name:"Narrateur",genre:"neutre",age:"adulte",timbre:"grave",ton:"posé, conteur",debit:"normal",description:"Voix grave et calme de conteur.",source:"proposée (démo)",verrouille:false}}};
   const p = (v) => Promise.resolve(JSON.parse(JSON.stringify(v)));
-  return {status:()=>p({version:"0.1 (aperçu)",ai:false,voice:false,demo:true,recent:[{name:"Mistvale",chars:2,lines:22,kind:"dialogues"}]}),
-    open_demo:()=>p(st), open_game:()=>p(st), pick_folder:()=>p(st), propose:()=>p(st), save_context:(k,c)=>(st.kind=k,st.context=c,p(st)),
+  return {status:()=>p({terms:false,version:"0.1 (aperçu)",ai:false,voice:false,demo:true,recent:[{name:"Mistvale",chars:2,lines:22,kind:"dialogues"}]}),
+    accept_terms:()=>p(true), open_demo:()=>p(st), open_game:()=>p(st), pick_folder:()=>p(st), propose:()=>p(st), save_context:(k,c)=>(st.kind=k,st.context=c,p(st)),
     save_card:(n,c)=>(Object.assign(st.cards[n],c,{source:"modifiée par toi"}),p(st)),
     ask:()=>p({reply:"Aperçu : l'IA locale répondra ici dans le logiciel."}), lines_of:(n)=>p(chars.find(c=>c.name===n).examples), quit:()=>p(null)};
 })();
@@ -214,6 +230,7 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.
 async function boot(){
   const st = await api().status();
   $("ver").textContent = "v"+st.version;
+  $("terms").classList.toggle("hidden", !!st.terms);
   $("status").innerHTML = (st.ai ? '<span class="on">● IA locale prête</span>' : '<span class="off">● IA locale à installer (depuis TradUp)</span>') +
     ' · ' + (st.voice ? '<span class="on">● Voix prête</span>' : '<span class="off">● Moteur de voix pas encore branché</span>');
   $("demobtn").classList.toggle("hidden", !st.demo);
@@ -283,6 +300,8 @@ $("drop").onclick = (e) => { if (e.target.id==="drop") $("folderbtn").onclick();
 ["dragenter","dragover"].forEach(t=>$("drop").addEventListener(t,e=>{e.preventDefault();$("drop").classList.add("over");}));
 ["dragleave","drop"].forEach(t=>$("drop").addEventListener(t,()=>$("drop").classList.remove("over")));
 $("quitbtn").onclick = () => api().quit();
+$("termsquit").onclick = () => api().quit();
+$("termsok").onclick = async () => { await api().accept_terms(); $("terms").classList.add("hidden"); };
 $("guidebtn").onclick = () => toast("1. Ouvre un jeu Ren'Py · 2. Vérifie la voix proposée pour chaque personnage · 3. Écris tes envies dans « Demande à l'IA ».");
 
 function askForm(form, input, out, selected){

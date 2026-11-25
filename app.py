@@ -19,12 +19,26 @@ import gamescan, localai, renpygame  # noqa: E402  (commun/, repris de TradUp)
 
 VERSION = "0.1"
 DEMO = os.path.join(HERE, "demo", "Mistvale")
+TERMS_VERSION = 1  # « USAGE PERSONNEL - à lire.txt » : à redemander si le texte change
 
 
 def projects_dir():
     d = os.path.join(os.path.expanduser("~"), "Documents", "TradVoice", "projets")
     os.makedirs(d, exist_ok=True)
     return d
+
+
+def _terms_path():
+    return os.path.join(os.path.dirname(projects_dir()), "conditions_acceptees.json")
+
+
+def terms_accepted():
+    return os.path.exists(_terms_path())
+
+
+def accept_terms():
+    with open(_terms_path(), "w", encoding="utf-8") as f:
+        json.dump({"version": TERMS_VERSION, "date": time.strftime("%Y-%m-%d %H:%M")}, f)
 
 
 def safe_name(name):
@@ -88,7 +102,12 @@ class Api:
 
     # ------------------------------------------------------------------ état
     def status(self):
-        return {"version": VERSION, "ai": ai_ready(), "voice": False, "recent": recent(), "demo": os.path.isdir(DEMO)}
+        return {"version": VERSION, "ai": ai_ready(), "voice": False, "recent": recent(), "demo": os.path.isdir(DEMO),
+                "terms": terms_accepted()}
+
+    def accept_terms(self):
+        accept_terms()
+        return True
 
     def _state(self):
         g, p = self.game, self.proj
@@ -211,6 +230,7 @@ def autotest():
     tmp = tempfile.mkdtemp()
     projects_dir = lambda: tmp  # noqa: E731
     api = Api()
+    assert not api.status()["terms"] and api.accept_terms() and api.status()["terms"]
     st = api.open_demo()
     assert "error" not in st, st
     names = [c["name"] for c in st["chars"]]

@@ -13,6 +13,7 @@ Tout en local sur le PC, sans compte ni clé, avec l'IA de TradUp :
 Toujours : originaux sauvegardés, « Remettre l'original », refus des jeux en ligne et anti-triche (règles TradUp).
 
 ## Décisions prises
+- **Usage personnel uniquement, diffusion interdite** (texte complet : `USAGE PERSONNEL - à lire.txt`). TradVoice ne remplace pas les comédiens. À rappeler : au premier lancement (case à cocher obligatoire), sur l'accueil, dans le LISEZ-MOI, et plus tard sur chaque fichier fabriqué (nom ou étiquette « usage personnel »). Aucune fonction de partage ou de mise en ligne dans le logiciel.
 - **Application séparée** (dépôt `TradVoice`), même squelette que TradUp : pywebview + `static/index.html`, Python 3.11, Nuitka.
 - **Moteur TradUp repris tel quel** dans `commun/` (copie de TradUp `f26f51e`, voir `commun/ORIGINE.txt`). Un correctif TradUp se recopie, rien n'est réécrit.
 - **L'IA locale est celle de TradUp** (même `llama-server`, même modèle dans `%LOCALAPPDATA%\TradUp\modeles`) : rien à retélécharger si TradUp est installé.
