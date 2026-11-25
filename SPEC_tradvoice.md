@@ -1,5 +1,8 @@
 # SPEC — TradVoice : les jeux (et plus tard les animés) parlent français
 
+> **EN PAUSE depuis le 25/11/2026** (carte graphique déjà très sollicitée par l'IA de TradUp).
+> Pour reprendre : lire « Où on en est » et « Étapes suivantes ». Première action : script d'essai Qwen3-TTS sur le PC.
+
 ## Objectif
 Tout en local sur le PC, sans compte ni clé, avec l'IA de TradUp :
 
