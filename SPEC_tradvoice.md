@@ -55,6 +55,11 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 - **Mangas** : à préciser — lire à voix haute un manga déjà traduit (bulles par personnage), ou traduire les images (TradUp sait déjà traduire le texte des images) ?
 - **Traduction vocale instantanée** : écouter un son en direct (jeu, vidéo, micro) et le redire en français avec 1 à 3 s de retard. Faisable en local (transcription + IA + voix), mais c'est un mode à part. Nom du logiciel dont tu veux t'inspirer : à donner.
 
+- **Mode « Mes textes » (accessibilité)** : pour les personnes qui ont du mal à parler devant un micro (vidéastes, YouTube…). On écrit son propre texte, on choisit ou on décrit une voix, TradVoice le lit (et peut le traduire dans une autre langue), puis exporte un fichier audio.
+  - Ici, **la diffusion est permise** : le texte appartient à la personne et la voix est créée par description (ce n'est la voix de personne). La règle « diffusion interdite » reste valable pour tout ce qui vient d'un jeu, d'un animé ou d'une œuvre d'un tiers.
+  - À faire avant : nouvelle version des conditions (`TERMS_VERSION = 2`) avec ces deux régimes ; moteur de voix dont la licence autorise l'usage commercial **des sons produits** ; rappel que certaines plateformes demandent de signaler une voix de synthèse.
+  - Pas de clonage de sa propre voix pour l'instant (hors sujet ici : l'idée est justement de ne pas utiliser sa voix).
+
 ## Questions ouvertes
 1. Moteur de voix : que contient VOX NATIVE (moteur, licence) ?
 2. Mangas : lecture à voix haute ou traduction des images ?
