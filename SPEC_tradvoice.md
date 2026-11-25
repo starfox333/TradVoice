@@ -75,6 +75,12 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 3. **Épisodes suivants** : chaque réplique est reconnue (quel personnage), transcrite, traduite (lexique des noms comme TradUp), puis dite avec la voix française du personnage et le ton mesuré de la réplique (réécriture vocale). Le son d'origine est baissé (pas coupé) pendant que la voix française parle.
 4. **Décalage** : il faut attendre la fin d'une phrase pour la traduire ; objectif **1 à 2 s**. Les phrases longues sont découpées aux pauses pour réduire l'attente.
 5. Rien n'est enregistré ni exporté dans ce mode ; une « série » = un projet (personnages, voix, lexique) réutilisé d'un épisode à l'autre.
+**Variante « préparée » (deux passages, recommandée pour un épisode entier)** :
+- 1er passage = **analyse** : on lance l'épisode (accéléré si la plateforme le permet), TradVoice écoute, reconnaît les personnages, transcrit, traduit et **prépare à l'avance** les répliques françaises avec leur ton et leur instant exact. Il ne garde que du texte, des minutages, des empreintes de voix et les voix françaises qu'il a lui-même fabriquées : jamais le son ni l'image d'origine.
+- On **remet l'épisode à zéro** : TradVoice se cale sur l'image sonore (il reconnaît où on en est, même après une pause ou un retour en arrière) et joue chaque réplique française **au bon moment, sans décalage**, avec le bon ton.
+- Avantages : traduction relue sur tout l'épisode (meilleure qu'en direct), voix déjà générées, zéro attente ; on peut corriger une réplique entre les deux passages.
+- Le projet de la série garde personnages et voix : dès le 2e épisode, l'analyse reconnaît directement qui parle.
+
 Limites : musique et bruitages restent sous la voix française ; qualité de traduction phrase par phrase (moins bonne qu'un doublage écrit à l'avance) ; à tester sur ton PC (transcription + IA + voix en même temps).
 
 ## Questions ouvertes
