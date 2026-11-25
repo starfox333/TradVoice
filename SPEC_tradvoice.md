@@ -58,7 +58,14 @@ Fait et testé (`python -m pytest -q tests`, `python app.py --autotest`) :
 - **Mode « Mes textes » (accessibilité)** : pour les personnes qui ont du mal à parler devant un micro (vidéastes, YouTube…). On écrit son propre texte, on choisit ou on décrit une voix, TradVoice le lit (et peut le traduire dans une autre langue), puis exporte un fichier audio.
   - Ici, **la diffusion est permise** : le texte appartient à la personne et la voix est créée par description (ce n'est la voix de personne). La règle « diffusion interdite » reste valable pour tout ce qui vient d'un jeu, d'un animé ou d'une œuvre d'un tiers.
   - À faire avant : nouvelle version des conditions (`TERMS_VERSION = 2`) avec ces deux régimes ; moteur de voix dont la licence autorise l'usage commercial **des sons produits** ; rappel que certaines plateformes demandent de signaler une voix de synthèse.
-  - Pas de clonage de sa propre voix pour l'instant (hors sujet ici : l'idée est justement de ne pas utiliser sa voix).
+  - **Deux choix de voix** : une voix créée par description, OU **sa propre voix**, enregistrée par la personne elle-même.
+  - Garde-fous pour « ma voix » (pour qu'on ne puisse pas copier la voix de quelqu'un d'autre) :
+    - enregistrement **uniquement au micro, dans TradVoice** : pas d'import de fichier audio pour ce mode ;
+    - **phrase de vérification** tirée au hasard et affichée à l'écran, à lire en direct (une voix prise dans une vidéo ne peut pas la dire) ;
+    - case « c'est ma propre voix » ; la voix reste sur le PC, chiffrée, et ne s'exporte pas comme modèle ;
+    - supprimable en un clic ;
+    - jamais utilisable dans les modes jeux / animés (ce n'est pas un outil pour se doubler dans une œuvre d'un tiers… sauf si on décide autrement plus tard).
+  - Contrainte technique : le moteur de voix doit savoir **à la fois** créer une voix par description et reproduire une voix enregistrée, avec une licence qui autorise la publication et la vente des sons produits.
 
 ## Questions ouvertes
 1. Moteur de voix : que contient VOX NATIVE (moteur, licence) ?
